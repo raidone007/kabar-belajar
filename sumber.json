@@ -1,0 +1,52 @@
+{
+  "maks_umur_hari": 14,
+  "maks_item": 30,
+  "catatan": "Hanya berita dari domain di daftar domain_boleh yang diterima. Alamat dengan terverifikasi=false belum pernah diuji, cek hasilnya di tab Actions setelah dijalankan pertama kali.",
+  "sumber": [
+    {
+      "nama": "ANTARA News",
+      "wilayah": "Indonesia",
+      "topik": "Pendidikan",
+      "url": "https://en.antaranews.com/rss/news.xml",
+      "domain_boleh": ["antaranews.com"],
+      "kata_kunci": ["education", "school", "student", "teacher", "university", "curriculum", "literacy", "scholarship"],
+      "terverifikasi": true
+    },
+    {
+      "nama": "ANTARA News",
+      "wilayah": "Indonesia",
+      "topik": "Pendidikan",
+      "url": "https://news.google.com/rss/search?q=pendidikan+site:antaranews.com+when:7d&hl=id&gl=ID&ceid=ID:id",
+      "domain_boleh": ["antaranews.com"],
+      "kata_kunci": [],
+      "terverifikasi": false
+    },
+    {
+      "nama": "Kemdiktisaintek",
+      "wilayah": "Indonesia",
+      "topik": "Pendidikan tinggi",
+      "url": "https://news.google.com/rss/search?q=Kemdiktisaintek+site:kemdiktisaintek.go.id+when:14d&hl=id&gl=ID&ceid=ID:id",
+      "domain_boleh": ["kemdiktisaintek.go.id"],
+      "kata_kunci": [],
+      "terverifikasi": false
+    },
+    {
+      "nama": "Kemendikdasmen",
+      "wilayah": "Indonesia",
+      "topik": "Sekolah",
+      "url": "https://news.google.com/rss/search?q=Kemendikdasmen+site:antaranews.com+when:7d&hl=id&gl=ID&ceid=ID:id",
+      "domain_boleh": ["antaranews.com", "kemendikdasmen.go.id"],
+      "kata_kunci": [],
+      "terverifikasi": false
+    },
+    {
+      "nama": "Pendidikan dunia",
+      "wilayah": "Dunia",
+      "topik": "Pendidikan dunia",
+      "url": "https://news.google.com/rss/search?q=education+UNESCO+OR+OECD+OR+UNICEF+when:7d&hl=en&gl=US&ceid=US:en",
+      "domain_boleh": ["unesco.org", "un.org", "oecd.org", "unicef.org", "worldbank.org", "bbc.com", "reuters.com", "apnews.com"],
+      "kata_kunci": [],
+      "terverifikasi": false
+    }
+  ]
+}

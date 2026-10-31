@@ -1,0 +1,67 @@
+/* Kabar Belajar: halaman buku tulis bergaris. Garis margin merah, garis biru tipis. */
+:root {
+  --paper: #fbfcfe;
+  --ink: #16202e;
+  --ink-soft: #4b5a6e;
+  --rule: #d6e2f1;
+  --margin: #d9534f;
+  --blue: #1f4fd8;
+  --chip-bg: #e8eefb;
+  --warn-bg: #fff4d6;
+  --warn-ink: #6b4b00;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1622; --ink: #e8edf5; --ink-soft: #9fb0c6; --rule: #22304a;
+    --margin: #ff7a73; --blue: #8fb0ff; --chip-bg: #1a2640;
+    --warn-bg: #3a2f10; --warn-ink: #f3d98a; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet { max-width: 760px; margin: 0 auto; position: relative; padding-left: clamp(0px, 4vw, 36px); }
+.sheet::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--margin); opacity: .75; }
+@media (max-width: 520px) { .sheet::before { display: none; } }
+header { padding-bottom: 20px; border-bottom: 2px solid var(--rule); }
+.edisi { font-family: var(--font-mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 6px; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.4rem, 8vw, 3.6rem); line-height: 1; letter-spacing: -.02em; margin: 0 0 12px; text-wrap: balance; }
+h1 a { color: inherit; text-decoration: none; }
+h1 span { color: var(--blue); }
+.lead { margin: 0; max-width: 56ch; color: var(--ink-soft); }
+.note { margin: 18px 0 0; padding: 10px 14px; background: var(--warn-bg); color: var(--warn-ink); font-size: 15px; border-radius: 6px; }
+nav.filter { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 18px; }
+nav.filter button { font: 600 15px var(--font-body); color: var(--ink); background: transparent; border: 1.5px solid var(--rule); border-radius: 999px; padding: 6px 16px; cursor: pointer; }
+nav.filter button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: var(--paper); }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.list { display: flex; flex-direction: column; min-height: 6rem; }
+article { padding-block: 20px; border-top: 1.5px solid var(--rule); display: grid; gap: 6px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-soft); }
+.chip { background: var(--chip-bg); color: var(--blue); padding: 1px 9px; border-radius: 4px; font-weight: 500; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; line-height: 1.25; margin: 0; text-wrap: balance; }
+article p { margin: 0; max-width: 62ch; }
+.basis { font-size: 14.5px; color: var(--ink-soft); }
+.src a { color: var(--blue); font-weight: 600; text-underline-offset: 3px; }
+.kosong { color: var(--ink-soft); padding-block: 20px; }
+section.blok { padding-block: 22px; border-top: 2px solid var(--rule); }
+section.blok h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; margin: 0 0 4px; }
+section.blok > p { margin: 0 0 14px; color: var(--ink-soft); font-size: 15px; max-width: 62ch; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.linkbtn { display: inline-block; padding: 8px 16px; background: var(--blue); color: var(--paper); font-weight: 600; text-decoration: none; border-radius: 6px; overflow-wrap: anywhere; }
+.iklan { border: 2px dashed var(--rule); border-radius: 8px; padding: 12px 16px 16px; min-height: 130px; display: grid; gap: 6px; align-content: start; }
+.iklan .label-iklan { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin: 0; }
+.iklan .iklan-kosong { color: var(--ink-soft); font-size: 15px; align-self: center; text-align: center; }
+footer { border-top: 2px solid var(--rule); padding-top: 18px; font-size: 14.5px; color: var(--ink-soft); }
+footer p { margin: 0 0 8px; max-width: 62ch; }
+footer nav { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; }
+footer a { color: var(--blue); font-weight: 600; text-underline-offset: 3px; }
+.halaman h2 { font-size: 1.25rem; margin-top: 22px; }
+.halaman p, .halaman li { max-width: 62ch; }

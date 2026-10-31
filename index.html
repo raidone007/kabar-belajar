@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kabar Belajar</title>
+<meta name="description" content="Berita pendidikan Indonesia dan dunia dengan bahasa mudah dan tautan ke sumber asli.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="gaya.css">
+
+<!-- IKLAN, LANGKAH 1: setelah AdSense menyetujui situsmu, hapus tanda komentar di bawah
+     dan ganti ca-pub-XXXXXXXXXXXXXXXX dengan nomor penerbit (publisher ID) milikmu.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <p class="edisi" id="edisi">Berita pendidikan</p>
+    <h1><a href="./">Kabar <span>Belajar</span></a></h1>
+    <p class="lead">Berita pendidikan Indonesia dan dunia, ditulis singkat dengan bahasa sehari-hari. Setiap berita memuat tautan ke sumber aslinya.</p>
+    <p class="note">Ringkasan hanya memuat apa yang tertulis di judul atau kutipan sumber, tanpa tambahan. Untuk isi lengkap, buka tautan sumber.</p>
+  </header>
+
+  <nav class="filter" aria-label="Pilih kategori berita">
+    <button type="button" data-f="semua" aria-pressed="true">Semua</button>
+    <button type="button" data-f="Indonesia" aria-pressed="false">Indonesia</button>
+    <button type="button" data-f="Dunia" aria-pressed="false">Dunia</button>
+  </nav>
+
+  <main class="list" id="list" aria-live="polite"><p class="kosong">Memuat berita…</p></main>
+
+  <section class="blok" aria-labelledby="judul-tautan">
+    <h3 id="judul-tautan">Website lain</h3>
+    <p>Tombol di bawah membuka website lain di tab baru.</p>
+    <ul class="links" id="links"></ul>
+  </section>
+
+  <section class="blok" aria-label="Iklan">
+    <div class="iklan">
+      <p class="label-iklan">Iklan</p>
+      <!-- IKLAN, LANGKAH 2: tempel kode unit iklan dari AdSense di bawah ini,
+           lalu hapus baris "iklan-kosong" di bawahnya. -->
+      <div class="iklan-kosong">Ruang iklan. Belum ada iklan yang dipasang.</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Kami memilih sumber dari situs kementerian dan lembaga resmi serta kantor berita tepercaya. Aturan lengkapnya ada di halaman Tentang.</p>
+    <p>Kolom "Dasar informasi" menjelaskan dari mana kabar diambil, supaya kamu bisa menilai sendiri seberapa kuat sumbernya.</p>
+    <nav aria-label="Halaman lain">
+      <a href="tentang.html">Tentang dan aturan sumber</a>
+      <a href="kebijakan-privasi.html">Kebijakan privasi</a>
+    </nav>
+  </footer>
+</div>
+
+<script>
+// Jumlah berita yang tampil untuk tiap pilihan. Ubah angka ini bila ingin lebih banyak.
+var JUMLAH_BERITA = 3;
+
+var BULAN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+var semuaBerita = [];
+var filterAktif = "semua";
+
+function tanggal(iso) {
+  var p = String(iso).split("-");
+  if (p.length !== 3) { return ""; }
+  return Number(p[2]) + " " + BULAN[Number(p[1]) - 1] + " " + p[0];
+}
+function amanUrl(u) {
+  try { var x = new URL(u); return (x.protocol === "https:" || x.protocol === "http:") ? x.href : ""; } catch (e) { return ""; }
+}
+function el(nama, kelas, teks) {
+  var e = document.createElement(nama);
+  if (kelas) { e.className = kelas; }
+  if (teks) { e.textContent = teks; }
+  return e;
+}
+function gambar() {
+  var kotak = document.getElementById("list");
+  kotak.textContent = "";
+  var items = semuaBerita
+    .filter(function (b) { return filterAktif === "semua" || b.wilayah === filterAktif; })
+    .sort(function (a, b) { return a.tgl < b.tgl ? 1 : -1; })
+    .slice(0, JUMLAH_BERITA);
+  if (!items.length) { kotak.appendChild(el("p", "kosong", "Belum ada berita untuk pilihan ini.")); return; }
+  items.forEach(function (b) {
+    var a = el("article");
+    var meta = el("div", "meta");
+    meta.appendChild(el("span", "chip", b.wilayah + " · " + (b.topik || "Pendidikan")));
+    var t = el("time", "", tanggal(b.tgl)); t.setAttribute("datetime", b.tgl); meta.appendChild(t);
+    a.appendChild(meta);
+    a.appendChild(el("h2", "", b.judul));
+    if (b.ringkas) { a.appendChild(el("p", "", b.ringkas)); }
+    var dasar = el("p", "basis"); dasar.appendChild(el("strong", "", "Dasar informasi: ")); dasar.appendChild(document.createTextNode(b.dasar || "")); a.appendChild(dasar);
+    var url = amanUrl(b.url);
+    if (url) {
+      var s = el("p", "src"); s.appendChild(document.createTextNode("Sumber: "));
+      var l = el("a", "", b.sumber || url); l.href = url; l.target = "_blank"; l.rel = "noopener noreferrer"; s.appendChild(l);
+      a.appendChild(s);
+    }
+    kotak.appendChild(a);
+  });
+}
+function muatBerita() {
+  fetch("berita.json", { cache: "no-cache" })
+    .then(function (r) { if (!r.ok) { throw new Error(r.status); } return r.json(); })
+    .then(function (d) {
+      semuaBerita = d.berita || [];
+      if (d.diperbarui) {
+        var tgl = String(d.diperbarui).slice(0, 10);
+        document.getElementById("edisi").textContent = "Diperbarui " + tanggal(tgl);
+      }
+      gambar();
+    })
+    .catch(function () {
+      var kotak = document.getElementById("list");
+      kotak.textContent = "";
+      kotak.appendChild(el("p", "kosong", "Berita belum bisa dimuat. Coba muat ulang halaman ini nanti."));
+    });
+}
+function muatTautan() {
+  fetch("tautan.json", { cache: "no-cache" })
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (daftar) {
+      var ul = document.getElementById("links");
+      daftar.forEach(function (t) {
+        var url = amanUrl(t.url); if (!url || !t.nama) { return; }
+        var li = document.createElement("li");
+        var a = el("a", "linkbtn", t.nama); a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer";
+        li.appendChild(a); ul.appendChild(li);
+      });
+      if (!ul.children.length) { ul.closest("section").hidden = true; }
+    })
+    .catch(function () { document.getElementById("links").closest("section").hidden = true; });
+}
+document.querySelectorAll("nav.filter button").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    document.querySelectorAll("nav.filter button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === btn)); });
+    filterAktif = btn.getAttribute("data-f");
+    gambar();
+  });
+});
+muatBerita();
+muatTautan();
+</script>
+</body>
+</html>

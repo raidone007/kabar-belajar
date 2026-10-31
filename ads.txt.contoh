@@ -1,0 +1,4 @@
+# Setelah AdSense menyetujui situsmu, ganti nama berkas ini menjadi ads.txt
+# dan ganti pub-0000000000000000 dengan nomor penerbit (publisher ID) milikmu.
+# Salin baris persisnya dari halaman AdSense bila berbeda dari contoh ini.
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
